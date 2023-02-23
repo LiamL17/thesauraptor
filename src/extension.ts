@@ -1,26 +1,81 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("thesauraptor.synonyms", async () => {
+      var WordPOS = require("wordpos"),
+        wordpos = new WordPOS();
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "thesauraptor" is now active!');
+      const editor = vscode.window.activeTextEditor;
+      if (editor === undefined) { return; }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('thesauraptor.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Thesauraptor!');
-	});
+      const cursorPosition = editor.selection.start;
+      const wordRange = editor.document.getWordRangeAtPosition(cursorPosition);
+      const selectedWord = editor.document.getText(wordRange);
+      const word = selectedWord;
 
-	context.subscriptions.push(disposable);
+      if (selectedWord.length === 0) {
+        vscode.window.showInformationMessage(
+          "No word selected. Please move cursor within word."
+        );
+        return;
+      }
+
+	  await wordpos.lookup(selectedWord, async function (result: any) {
+        const synonymWithDef = result.flatMap((item: any) => {
+          return item.synonyms
+            .filter(function (synonym: any) {
+              return synonym !== selectedWord;
+            })
+            .map(function (synonym: any) {
+              return {
+                synonym: synonym,
+                definition: item.def,
+                type: item.lexName,
+              };
+            });
+        });
+		
+
+        const synonymArticles = await synonymWithDef.map((syn: any) => {
+          return {
+            label: syn.synonym,
+            detail: syn.definition,
+            description: syn.type,
+          };
+        });
+
+        const synonymPicked = await vscode.window.showQuickPick(
+          synonymArticles,
+          {
+            canPickMany: false,
+            title: "Synonyms",
+            matchOnDetail: true,
+          }
+        );
+
+        editor.edit((selectedWord) => {
+          selectedWord.replace(
+            editor.selection,
+            //@ts-ignore
+            synonymPicked === undefined ? word : synonymPicked.label
+          );
+        });
+      });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("thesauraptor.antonyms", async () => {
+      vscode.window.showInformationMessage("Antonyms");
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("thesauraptor.definitions", async () => {
+      vscode.window.showInformationMessage("Definitions");
+    })
+  );
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

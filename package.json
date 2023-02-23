@@ -9,15 +9,37 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:thesauraptor.helloWorld"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "thesauraptor.helloWorld",
-        "title": "Hello World"
+        "command": "thesauraptor.synonyms",
+        "title": "Obtain synonyms for the selected word."
+      },
+      {
+        "command": "thesauraptor.antonyms",
+        "title": "Obtain antonyms for the selected word."
+      },
+      {
+        "command": "thesauraptor.definitions",
+        "title": "Obtain definitions for the selected word."
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "thesauraptor.synonyms",
+        "key": "Ctrl+Shift+Alt+S",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "thesauraptor.antonyms",
+        "key": "Ctrl+Shift+Alt+A",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "thesauraptor.definitions",
+        "key": "Ctrl+Shift+Alt+D",
+        "when": "editorTextFocus"
       }
     ]
   },
@@ -30,16 +52,19 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.75.0",
     "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "@vscode/test-electron": "^2.2.2",
     "eslint": "^8.33.0",
     "glob": "^8.1.0",
     "mocha": "^10.1.0",
-    "typescript": "^4.9.4",
-    "@vscode/test-electron": "^2.2.2"
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "wordpos": "^2.1.0"
   }
 }
