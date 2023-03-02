@@ -8,12 +8,20 @@ TODO: Add animation to show this.
 
 ## Known Issues
 
-Getting the list of antonyms is a bit more difficult as the Wordpos library does not give this functionality. Later release might include the use of https://dictionaryapi.com/ where the user must provide their own API key. This is a free API for up to 1000 requests a day.
+Not using errors correctly. Most edge cases sorted, but can be better.
+
+## TODO
+
+Give user the option to use open source API to get list of synonyms instead of using API key.
 
 ## Release Notes
 
 ### 0.0.1
 
 Initial release of Thesauraptor! 
+
+### 0.0.2
+
+Refactor Thesauraptor to use DictionaryAPI instead of wordpos. 
 
 ---
