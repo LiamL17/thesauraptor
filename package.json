@@ -9,7 +9,16 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [
+    "thesauraptor.synonyms",
+    "thesauraptor.antonyms",
+    "thesauraptor.definitions"
+  ],
   "main": "./out/extension.js",
+  "repository": {
+    "url": "https://github.com/LiamL17/thesauraptor"
+  },
+  "publisher": "LiamL17",
   "contributes": {
     "commands": [
       {
@@ -49,7 +58,12 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/glob": "^8.0.1",
@@ -59,6 +73,7 @@
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "@vscode/test-electron": "^2.2.2",
+    "esbuild": "^0.17.10",
     "eslint": "^8.33.0",
     "glob": "^8.1.0",
     "mocha": "^10.1.0",
