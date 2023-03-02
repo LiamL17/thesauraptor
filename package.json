@@ -1,13 +1,13 @@
 {
   "name": "thesauraptor",
   "displayName": "Thesauraptor",
-  "description": "A simlpe yet efficient Thesaurus for all the words.",
+  "description": "A simple yet efficient Thesaurus for all the words.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
-    "Other"
+    "Languages"
   ],
   "activationEvents": [
     "thesauraptor.synonyms",
@@ -53,13 +53,12 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
@@ -69,6 +68,7 @@
     "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/node-fetch": "^2.6.2",
     "@types/vscode": "^1.75.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
@@ -80,6 +80,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "node-fetch": "^2.6.9",
     "wordpos": "^2.1.0",
     "zod": "^3.20.6"
   }
