@@ -2,7 +2,7 @@
   "name": "thesauraptor",
   "displayName": "Thesauraptor",
   "description": "A simple yet efficient Thesaurus for all the words.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.75.0"
   },

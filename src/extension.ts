@@ -241,10 +241,10 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const definitionArticles = definitions.definitions.map(function (
-        synonym: string
+        definition: string
       ) {
         return {
-          label: synonym,
+          label: definition,
         };
       });
 
